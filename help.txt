@@ -1,0 +1,4 @@
+Step 1: Create database db_name
+Step 2: Create user user_name with encrypted password 'qweqweqwe'
+Step 3: \c db_name
+Step 4: grant all on schema public to user_name
