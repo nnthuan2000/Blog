@@ -1,8 +1,17 @@
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { hash } from 'bcrypt';
 import { Exclude } from 'class-transformer';
+import { Article } from '@app/articles/entities/article.entity';
 
-@Entity()
+@Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -28,6 +37,13 @@ export class User {
   async hashPassword() {
     this.password = await hash(this.password, 10);
   }
+
+  @OneToMany(() => Article, (article) => article.author)
+  articles: Article[];
+
+  @ManyToMany(() => Article)
+  @JoinTable()
+  favorites: Article[];
 
   token: string;
 
